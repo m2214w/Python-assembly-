@@ -1,0 +1,41 @@
+# Goal: A Python script that downloads multiple SRA files, extracts fastq files, and then assembles the resulting data.
+# One of the main issues I’ve had is with my path. Since the prefetch and fastq-dump programs were downloaded through github, 
+# I had trouble accessing these files in my path. Therefore, I led the path to my folder. I don’t think this is entirely correct, 
+# but it worked. I couldn’t figure out the github-specific path.
+# The next step is to assemble the extracted “SRR_1 and SRR_2” files. I am trying to create a loop that takes in 
+# only the “SRR_1 and SRR_2” and separately assembles them. 
+# “Spades.py --pe-1 ... -o s_epi_spades_test” is what would be used in command line to create an assembly with the two extracted files.
+
+
+import subprocess
+
+# Samples correspond to sample_1, sample_2, sample_3, sample_4
+sra_numbers = [
+    "SRR18550793", "SRR18550794", "SRR18550795", "SRR18550796"]
+
+# Prefetch command downloads SRR files from ncbi website
+# I would like to use sys.argv to enter these SRR files from command line rather than create the list, but this worked 
+# Download the .sra files to desired folder
+for sra_id in sra_numbers:
+    print ("Currently downloading: " + sra_id)
+    prefetch = "prefetch " + sra_id
+    print ("The command used was: " + prefetch)
+    subprocess.call(prefetch, shell=True)
+
+# Extract .fastq files from .sra files above
+for sra_id in sra_numbers:
+    print ("Generating fastq for: " + sra_id)
+    fastq_dump = "fastq-dump --split-3 --skip-technical --minReadLen 64 --defline-seq @\$ac.\$si --defline-qual \"+\" /Users/matthewwielgat/desktop/micro657/final_pro/" + sra_id
+    print ("The command used was: " + fastq_dump)
+    subprocess.call(fastq_dump, shell=True)
+    print ("test")
+
+# Form assembly 
+# Fastq files corresponding to samples
+fastq_files = [
+    "SRR18550793_1.fastq + SRR18550793_2.fastq", "SRR18550794_1.fastq + SRR18550794_2.fastq", "SRR18550795_1.fastq + SRR18550795_2.fastq", "SRR18550796_1.fastq + SRR18550796_2.fastq"]
+
+# Create 4 assemblies with each combination above
+# Code to assemble in command line 
+spades.py --pe1-1 SRR18550793_1.fastq --pe1-2 SRR18550793_2.fastq -k 51 -o s_epi_spades_test
+
