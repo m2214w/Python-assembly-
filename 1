@@ -11,7 +11,7 @@ import subprocess
 
 # Samples correspond to sample_1, sample_2, sample_3, sample_4
 sra_numbers = [
-    "SRR18550793", "SRR18550794", "SRR18550795", "SRR18550796"]
+    "SRR133640", "SRR13155012"]
 
 # Prefetch command downloads SRR files from ncbi website
 # I would like to use sys.argv to enter these SRR files from command line rather than create the list, but this worked 
@@ -33,9 +33,9 @@ for sra_id in sra_numbers:
 # Form assembly 
 # Fastq files corresponding to samples
 fastq_files = [
-    "SRR18550793_1.fastq + SRR18550793_2.fastq", "SRR18550794_1.fastq + SRR18550794_2.fastq", "SRR18550795_1.fastq + SRR18550795_2.fastq", "SRR18550796_1.fastq + SRR18550796_2.fastq"]
+    "SRR133640_1.fastq + SRR133640_2.fastq", "SRR13155012_1.fastq + SRR13155012_2.fastq"]
 
 # Create 4 assemblies with each combination above
 # Code to assemble in command line 
-spades.py --pe1-1 SRR18550793_1.fastq --pe1-2 SRR18550793_2.fastq -k 51 -o s_epi_spades_test
+spades.py --pe1-1 SRR133640_1.fastq --pe1-2 SRR133640_2.fastq -k 51 -o s_epi_spades_test
 
